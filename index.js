@@ -1,9 +1,4 @@
 angular.module('my.tabs', []);
-angular.module('my.tabs').controller("MainCtrl",function ($scope) {
-    $scope.tabsmenu = [];
-
-});
-
 angular.module('my.tabs').directive('myTabs',function(){
     return {
         priority: 11,
@@ -58,7 +53,6 @@ angular.module('my.tabs').directive('myTabs',function(){
 });
 
 angular.module('my.tabs').directive('myTab',function(){
-
     return {
         priority: 22,
         restrict: 'A',
