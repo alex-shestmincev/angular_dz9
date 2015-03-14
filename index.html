@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <title>My HTML File</title>
+  <script src="angular.js"></script>
+    <script src="app.js"></script>
+    <script src="index.js"></script>
+
+</head>
+<body ng-app="tabsapp"  ng-controller="MainCtrl" style="width:100%; height:800px;" >
+<nav>
+    <ul>
+        <li ng-repeat="tab in tabsmenu">{{tab}}</li>
+    </ul>
+</nav>
+<div tabs>
+
+</div>
+<div tab="Tab">123</div>
+<div tab="Other">Other</div>
+
+
+
+
+
+</body>
+</html>
