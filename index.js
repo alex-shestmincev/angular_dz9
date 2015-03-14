@@ -5,16 +5,14 @@ angular.module('my.tabs').controller("MainCtrl",function ($scope) {
 });
 
 angular.module('my.tabs').directive('myTabs',function(){
-
     return {
-        priority: 1,
+        priority: 11,
         restrict: 'A',
         transclude: true,
         controller: function ($scope) {
             var tabsContainer = $scope.tabs = [];
 
             this.addTab = function (tabInstance) {
-                console.log(tabInstance.transcluded);
                 tabsContainer.push(tabInstance);
             };
 
@@ -35,9 +33,7 @@ angular.module('my.tabs').directive('myTabs',function(){
             '<div ng-transclude class="tabs-zone"></div>',
             '</div>'
         ].join(''),
-        scope: {
-
-        },
+        scope: {},
         link: function($scope, $element, $attr, tabsCtrl, transcludeFn){
             var init = false;
 
@@ -64,7 +60,7 @@ angular.module('my.tabs').directive('myTabs',function(){
 angular.module('my.tabs').directive('myTab',function(){
 
     return {
-        priority: 1,
+        priority: 22,
         restrict: 'A',
         template: '',
         require: '^^myTabs',
@@ -72,8 +68,7 @@ angular.module('my.tabs').directive('myTab',function(){
             myTab: "@"
         },
         transclude: true,
-        compile: function(elm, attrs) {
-            return function postLink($scope, element, attr, myTabsCtrl, $transclude) {
+        link: function($scope, element, attr, myTabsCtrl, $transclude) {
                 var id = Math.random();
                 var transcludedContent;
 
@@ -91,7 +86,6 @@ angular.module('my.tabs').directive('myTab',function(){
                 $scope.$on('$destroy', function() {
                     tabsetCtrl.removeTab(scope);
                 });
-            }
         }
     };
 });
