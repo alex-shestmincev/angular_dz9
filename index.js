@@ -14,6 +14,7 @@ angular.module('my.tabs').directive('myTabs',function(){
             var tabsContainer = $scope.tabs = [];
 
             this.addTab = function (tabInstance) {
+                console.log(tabInstance.transcluded);
                 tabsContainer.push(tabInstance);
             };
 
@@ -37,7 +38,7 @@ angular.module('my.tabs').directive('myTabs',function(){
         scope: {
 
         },
-        link: function($scope, $element, $attr, tabsCtrl){
+        link: function($scope, $element, $attr, tabsCtrl, transcludeFn){
             var init = false;
 
             $scope.$watch(
@@ -54,18 +55,8 @@ angular.module('my.tabs').directive('myTabs',function(){
             );
 
             $scope.showTab = function (tab) {
-                hideTabs();
-                tab.element[0].style.display = 'initial';
-
+                $element.find('div').find('div').html(tab.transcludedContent.html());
             };
-
-            function hideTabs() {
-                $scope.tabs.forEach(function(tab){
-                    tab.element[0].style.display = 'none';
-                });
-            }
-            //hideTabs();
-
         }
     };
 });
@@ -80,23 +71,28 @@ angular.module('my.tabs').directive('myTab',function(){
         scope: {
             myTab: "@"
         },
-        compile: function(elm, attrs, transclude) {
-            return function postLink($scope, element, attr, myTabsCtrl) {
+        transclude: true,
+        compile: function(elm, attrs) {
+            return function postLink($scope, element, attr, myTabsCtrl, $transclude) {
                 var id = Math.random();
+                var transcludedContent;
+
+                $transclude(function(clone, scope) {
+                    transcludedContent = clone;
+                });
 
                 myTabsCtrl.addTab({
                     id: id,
                     title: $scope.myTab,
-                    element: element
+                    element: element,
+                    transcludedContent: transcludedContent
                 });
-
 
                 $scope.$on('$destroy', function() {
                     tabsetCtrl.removeTab(scope);
                 });
             }
         }
-        
     };
 });
 
